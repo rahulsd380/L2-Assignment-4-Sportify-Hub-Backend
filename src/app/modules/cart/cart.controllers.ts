@@ -1,11 +1,11 @@
 import sendResponse from "../../utils/sendResponse";
 import httpStatus from "http-status";
 import catchAsync from "../../utils/catchAsync";
-import { ProductServices } from "./products.services";
+import { CartServices } from "./cart.services";
 
-const createProduct = catchAsync(async (req, res) => {
+const postOnCart = catchAsync(async (req, res) => {
   const productData = req.body;
-  const result = await ProductServices.createProduct(productData);
+  const result = await CartServices.postOnCart(productData);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -15,8 +15,8 @@ const createProduct = catchAsync(async (req, res) => {
   });
 });
 
-const getAllProducts = catchAsync(async (req, res) => {
-  const result = await ProductServices.getAllProducts();
+const getAllCartProducts = catchAsync(async (req, res) => {
+  const result = await CartServices.getAllCartProducts();
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -26,9 +26,9 @@ const getAllProducts = catchAsync(async (req, res) => {
   });
 });
 
-const deleteProduct = catchAsync(async (req, res) => {
+const deleteProductFromCart = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await ProductServices.deleteProduct(id);
+  const result = await CartServices.deleteProductFromCart(id);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -38,21 +38,21 @@ const deleteProduct = catchAsync(async (req, res) => {
   });
 });
 
-const updateProduct = catchAsync(async (req, res) => {
-  const {id} = req.params;
-  const result = await ProductServices.updateProduct(id, req.body);
+const updateCartProduct = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await CartServices.updateCartProduct(id, req.body);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Product updated successfully",
+    message: "Product quantity updated successfully",
     data: result,
   });
 });
 
-export const ProductControllers = {
-  createProduct,
-  getAllProducts,
-  updateProduct,
-  deleteProduct
+export const CartControllers = {
+  postOnCart,
+  getAllCartProducts,
+  updateCartProduct,
+  deleteProductFromCart,
 };
