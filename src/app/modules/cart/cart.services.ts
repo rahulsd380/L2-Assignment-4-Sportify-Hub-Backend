@@ -2,8 +2,18 @@ import { TCartItem } from "./cart.interface";
 import { Cart } from "./cart.model";
 
 const postOnCart = async (payload: TCartItem) => {
-  const result = await Cart.create(payload);
-  return result;
+  const isProductAvailable = await Cart.findOne({
+    productId: payload.productId,
+  });
+
+  if (isProductAvailable) {
+    isProductAvailable.quantity += payload.quantity;
+    const updatedCartItem = await isProductAvailable.save();
+    return updatedCartItem;
+  } else {
+    const result = await Cart.create(payload);
+    return result;
+  }
 };
 
 const getAllCartProducts = async () => {
