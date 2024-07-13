@@ -6,8 +6,8 @@ const productValidation = z.object({
     category: z.string(),
     product_name: z.string(),
     description: z.string(),
-    details: z.array(z.string()),
-    rating: z.number().min(0).max(5),
+    details: z.string().optional(),
+    rating: z.number().min(0).max(5).optional(),
     price: z.string(),
     brand: z.string(),
     stock: z.number().int().nonnegative(),
@@ -15,4 +15,22 @@ const productValidation = z.object({
   }),
 });
 
-export default productValidation;
+const updateProductValidation = z.object({
+  body: z.object({
+    img: z.string().optional(),
+    category: z.string().optional(),
+    product_name: z.string().optional(),
+    description: z.string().optional(),
+    details: z.string().optional(),
+    rating: z.number().min(0).max(5).optional(),
+    price: z.string().optional(),
+    brand: z.string().optional(),
+    stock: z.number().int().nonnegative().optional(),
+    delivery_type: z.enum(["Fast", "Free"]).optional(),
+  }),
+});
+
+export const ProductValidation = {
+  productValidation,
+  updateProductValidation
+}
